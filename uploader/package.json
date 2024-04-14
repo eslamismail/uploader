@@ -1,0 +1,30 @@
+{
+  "name": "uploader",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build && nuxt generate",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint:prettier": "prettier --check .",
+    "lint": "yarn lint:prettier",
+    "lintfix": "prettier --write --list-different ."
+  },
+  "dependencies": {
+    "@nuxtjs/toast": "^3.3.1",
+    "axios": "^1.6.8",
+    "core-js": "^3.25.3",
+    "moment": "^2.30.1",
+    "nuxt": "^2.15.8",
+    "vue": "^2.7.10",
+    "vue-server-renderer": "^2.7.10",
+    "vue-template-compiler": "^2.7.10",
+    "vuetify": "^2.6.10"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.12.3",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1"
+  }
+}
