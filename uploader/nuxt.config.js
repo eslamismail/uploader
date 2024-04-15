@@ -41,7 +41,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ['@nuxtjs/toast'],
   toast: {
-    position: 'top-right',
+    position: 'top-left',
     duration: 3000,
     // timeout: 5000,
     // autoDismissTimeout: 5000,
@@ -67,5 +67,8 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    maxAssetSize: 1024 * 500, // Increase the limit to 500 KiB
+    maxEntryPointSize: 1024 * 500, // Increase the limit to 500 KiB
+  },
 }

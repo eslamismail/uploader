@@ -17,7 +17,12 @@
               >
             </template>
             <template v-slot:item.action="{ item }">
-              <v-btn color="error" small @click="deleteFile(item)">
+              <v-btn
+                color="error"
+                :loading="loading"
+                small
+                @click="deleteFile(item)"
+              >
                 delete
               </v-btn>
             </template>
@@ -40,6 +45,12 @@ export default {
       loading: false,
       files: [],
       headers: [
+        {
+          text: 'id',
+          align: 'start',
+          sortable: true,
+          value: 'id',
+        },
         {
           text: 'file name',
           align: 'start',
