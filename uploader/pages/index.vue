@@ -11,10 +11,16 @@
         </v-card-title>
         <v-card-text>
           <v-data-table :loading="loading" :headers="headers" :items="files">
-            <template v-slot:item.file_link="{ item }">
-              <a target="_blank" v-if="item.file_name" :href="item.file_name"
-                >open</a
-              >
+            <template v-slot:item.file_name="{ item }">
+              <a target="_blank" v-if="item.file_name" :href="item.file_name">
+                open
+              </a>
+            </template>
+            <template v-slot:item.created_at="{ item }">
+              {{ moment(item.created_at).format('lll') }}
+            </template>
+            <template v-slot:item.updated_at="{ item }">
+              {{ moment(item.updated_at).format('lll') }}
             </template>
             <template v-slot:item.action="{ item }">
               <v-btn
@@ -44,53 +50,28 @@ export default {
     return {
       loading: false,
       files: [],
-      headers: [
-        {
-          text: 'id',
-          align: 'start',
-          sortable: true,
-          value: 'id',
-        },
-        {
-          text: 'file name',
-          align: 'start',
-          sortable: true,
-          value: 'name',
-        },
-        {
-          text: 'file size',
-          align: 'start',
-          sortable: true,
-          value: 'file_size',
-        },
-        {
-          text: 'file link',
-          align: 'start',
-          sortable: true,
-          value: 'file_link',
-        },
-        {
-          text: 'created at',
-          align: 'start',
-          sortable: true,
-          value: 'created_at',
-        },
-        {
-          text: 'updated at',
-          align: 'start',
-          sortable: true,
-          value: 'updated_at',
-        },
-        {
-          text: 'action',
-          align: 'start',
-          sortable: true,
-          value: 'action',
-        },
-      ],
+      moment,
     }
   },
 
+  computed: {
+    headers() {
+      const keys = Object.keys(this.files[0] ?? {}).map((item) => ({
+        text: item.replace('_', ' ').toUpperCase(),
+        value: item,
+        align: 'start',
+        sortable: true,
+      }))
+      if (keys.length)
+        keys.push({
+          text: 'action'.replace('_', ' ').toUpperCase(),
+          align: 'start',
+          sortable: false,
+          value: 'action',
+        })
+      return keys
+    },
+  },
   created() {
     this.initPage()
   },
@@ -98,16 +79,8 @@ export default {
     async initPage() {
       this.loading = true
       try {
-        this.headers = this.headers.map((item) => ({
-          ...item,
-          text: item.text.toUpperCase(),
-        }))
         const response = await this.$axios.get('files')
-        this.files = response?.data?.files.map((item) => ({
-          ...item,
-          created_at: moment(item.created_at).format('lll'),
-          updated_at: moment(item.updated_at).format('lll'),
-        }))
+        this.files = response?.data?.files
       } catch (error) {}
       this.loading = false
     },

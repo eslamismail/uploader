@@ -29,5 +29,7 @@ Route::get('/', function () {
         // else continue;
     }
 
-    return File::count();
+    return [
+        File::count()
+    ];
 });
